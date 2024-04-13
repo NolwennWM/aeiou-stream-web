@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/styles/video.css" />
+    <link rel="stylesheet" href="./assets/styles/layout.css" />
+    <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
+    <script src="./assets/scripts/config.js"></script>
+    <script src="./assets/scripts/layout.js" defer></script>
+    <script src="./assets/scripts/video.js" defer></script>
+  </head>
+  <body>
+    <nav class="video-controller">
+        <div class="streamers-list"></div>
+        <div class="btns-list">
+            <button id="layout-btn">
+            <svg>
+                <use href="#svg-grid">
+            </svg>
+            </button>
+        </div>
+      <button id="nav-btn">
+        <svg>
+            <use href="#svg-chevron">
+        </svg>
+      </button>
+    </nav>
+    <div class="video-container layout layout-1">
+      <!-- <div id="player_1"></div>
+      <div id="player_2"></div>
+      <div id="player_3"></div> -->
+    </div>
+    <div id="layout-selection">
+        <div class="layout layout-1 layout-1-a" data-layout="1-a">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-2 layout-2-a" data-layout="2-a">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-2 layout-2-b" data-layout="2-b">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-a" data-layout="3-a">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-b" data-layout="3-b">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-c" data-layout="3-c">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-d" data-layout="3-d">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-e" data-layout="3-e">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-f" data-layout="3-f">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+        <div class="layout layout-3 layout-3-g" data-layout="3-g">
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+            <div class="layout-cell"></div>
+        </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hide">
+        <symbol viewBox="0 0 512 512" id="svg-chevron">
+            <path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 345c-9.4 9.4-24.6 9.4-33.9 0L135 241z"/>
+        </symbol>
+        <symbol viewBox="0 0 448 512" id="svg-grid">
+            <path
+              d="M384 96V224H256V96H384zm0 192V416H256V288H384zM192 224H64V96H192V224zM64 288H192V416H64V288zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"
+            />
+        </symbol>
+    </svg>
+  </body>
+</html>
