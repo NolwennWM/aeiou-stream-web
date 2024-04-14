@@ -1,6 +1,10 @@
 // Initialize OvenPlayer
 displayStreamers();
-
+/**
+ * Display the buttons of each streamers, 
+ * add event listeners,
+ * And set interval for the online check
+ */
 function displayStreamers()
 {
     const list = document.querySelector(".streamers-list");
@@ -24,7 +28,12 @@ function displayStreamers()
 
         list.append(button);
     }
+    setInterval(checkOnlineStream, requestInterval)
+    checkOnlineStream();
 }
+/**
+ * Create or remove a video player when button is clicked.
+ */
 function toggleStreamer() 
 {
     const container = document.querySelector(".video-container");
@@ -51,4 +60,31 @@ function toggleStreamer()
     const players = container.children.length;
     setLayoutVideo(players+"-a");
     toggleVisibleLayout(players);
+}
+/**
+ * Launch request on each streamers for check which one is online.
+ */
+async function checkOnlineStream()
+{
+    const requests = [];
+    for (const name in streamers) 
+    {
+        requests.push(fetch(streamers[name].url+"?streamer="+name));
+    }
+    const responses = await Promise.all(requests);
+    responses.forEach(handleOnlineState);
+    if(envProd)console.clear();
+}
+/**
+ * Change the badge for display which streamer is online.
+ * @param {Response} response 
+ */
+function handleOnlineState(response)
+{
+    const streamer = (new URL(response.url)).searchParams.get("streamer");
+    if(!streamer) return;
+    const button = document.querySelector(`button[data-streamer="${streamer}"]`);
+    if(!button) return;
+    if(response.ok) button.classList.add("online");
+    else button.classList.remove("online");
 }

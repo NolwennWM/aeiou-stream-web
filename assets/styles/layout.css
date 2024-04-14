@@ -7,7 +7,7 @@
     --btn-grid-background-color: rgba(255, 182, 193, 0.2);
     --btn-opacity: 0.1;
     --streamer-selected: rgb(172, 255, 47);
-    --streamer-live: rgb(255, 0, 0);
+    --streamer-live: rgb(172, 255, 47);
     --streamer-off: rgb(169, 169, 169);
 }
 body
@@ -47,6 +47,15 @@ body
     & .streamers-list button
     {
         position: relative;
+        & img
+        {
+            border: 2px solid transparent;
+            border-radius: 50%;
+            .selected &
+            {
+                border-color: var(--streamer-selected);
+            }
+        }
         & .badge{
             position: absolute;
             display: block;
@@ -60,10 +69,6 @@ body
             .online &
             {
                 background-color: var(--streamer-live);
-            }
-            .selected &
-            {
-                background-color: var(--streamer-selected);
             }
         }
     }
