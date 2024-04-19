@@ -4,14 +4,20 @@ export class LayoutMenu
 {
     layoutsList = ["layout-1-a", "layout-2-a", "layout-2-b", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */];
     storageName = "layout-setting";
+    constructor()
+    {
+        this.getSettings();
+        this.setLayoutEvent();
+    }
     /**
      * Set event listener of navigation bar and layout settings
      */
     setLayoutEvent() 
     {
-        const layoutBtn = document.querySelector("#layout-btn");
-        const navBtn = document.querySelector("#nav-btn");
-        const layouts = document.querySelectorAll("#layout-selection .layout");
+        const 
+            layoutBtn = document.querySelector("#layout-btn"), 
+            navBtn = document.querySelector("#nav-btn"),
+            layouts = document.querySelectorAll("#layout-selection .layout");
     
         if(!layoutBtn || !layouts.length)return;
     
@@ -25,7 +31,6 @@ export class LayoutMenu
     
         navBtn?.addEventListener("click", this.toggleNav);
         this.toggleVisibleLayout(0);
-        this.getSettings();
     }
     /**
      * Open the modal of layout selection

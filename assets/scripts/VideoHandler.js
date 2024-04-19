@@ -1,11 +1,20 @@
 "use strict";
-import { streamers, VideoOption, requestInterval, envProd, path } from "./Config.js";
+import { streamers, VideoOption, requestInterval, envProd } from "./Config.js";
+import { LayoutMenu } from "./LayoutMenu.js";
 
 export class VideoHandler
 {
+    firstload = true;
+    autodisplay = true;
+    /**
+     * 
+     * @param {LayoutMenu} layoutMenu 
+     */
     constructor(layoutMenu)
     {
         this.layoutMenu = layoutMenu;
+        this.autodisplay = this.layoutMenu.settings.autodisplay??true;
+        this.displayStreamers();
     }
     /**
      * Display the buttons of each streamers, 
@@ -35,25 +44,30 @@ export class VideoHandler
 
             list.append(button);
         }
+
+        const autoDisplayBtn = document.querySelector("#auto-display-checkbox");
+        autoDisplayBtn?.addEventListener("change", ()=>this.toggleAutoDisplay(autoDisplayBtn));
+        autoDisplayBtn.checked = this.autodisplay;
+
         setInterval(this.checkOnlineStream.bind(this), requestInterval)
         this.checkOnlineStream();
     }
     /**
      * Create or remove a video player when button is clicked.
      */
-    toggleStreamer(button) 
+    toggleStreamer(button, force = undefined) 
     {
         const container = document.querySelector(".video-container");
         const name = button.dataset.streamer;
         if(!container || !name)return;
         const id = "player_"+name;
         const player = document.querySelector(`#${id}`);
-        if(player)
+        if(!force && player)
         {
             button.classList.remove("selected");
             player.remove();
         }
-        else
+        else if(!player && (force === true|| force === undefined))
         {
             const video = document.createElement("div");
             video.id = id;
@@ -78,9 +92,10 @@ export class VideoHandler
         {
             requests.push(fetch(streamers[name].url+"?streamer="+name));
         }
-
+        
         const responses = await Promise.all(requests);
         responses.forEach(this.handleOnlineState.bind(this));
+        this.firstload = false;
 
         if(envProd)console.clear();
     }
@@ -92,19 +107,31 @@ export class VideoHandler
     {
         const streamer = (new URL(response.url)).searchParams.get("streamer");
         if(!streamer) return;
-
         const button = document.querySelector(`button[data-streamer="${streamer}"]`);
         if(!button) return;
 
         if(response.ok) 
         {
-            if(!button.classList.contains("online"))
+            const online = response.status == 200;
+            if(online)
             {
                 button.classList.add("online");
-                this.toggleStreamer(button);
+            }
+            else button.classList.remove("online");
+
+            if(this.firstload || this.autodisplay)
+            {
+                this.toggleStreamer(button, online);
             }
         }
-        else button.classList.remove("online");
-
+    }
+    /**
+     * 
+     * @param {HTMLInputElement} checkbox 
+     */
+    toggleAutoDisplay(checkbox)
+    {
+        this.autodisplay = checkbox.checked;
+        this.layoutMenu.saveSettings({autodisplay: checkbox.checked});
     }
 }
