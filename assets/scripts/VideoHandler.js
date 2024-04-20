@@ -7,8 +7,8 @@ export class VideoHandler
     firstload = true;
     autodisplay = true;
     /**
-     * 
-     * @param {LayoutMenu} layoutMenu 
+     * Handle the video players
+     * @param {LayoutMenu} layoutMenu Layout Menu Controller
      */
     constructor(layoutMenu)
     {
@@ -79,8 +79,12 @@ export class VideoHandler
             button.classList.add("selected");
         }
         const players = container.children.length;
+        
         this.layoutMenu.setLayoutVideo();
         this.layoutMenu.toggleVisibleLayout(players);
+
+        const OvenVideo = document.querySelector("#"+id);
+        OvenVideo?.classList.add("layout-child-"+(players+1));
     }
     /**
      * Launch request on each streamers for check which one is online.
@@ -101,7 +105,7 @@ export class VideoHandler
     }
     /**
      * Change the badge for display which streamer is online.
-     * @param {Response} response 
+     * @param {Response} response response object of fetch
      */
     handleOnlineState(response)
     {
@@ -126,8 +130,8 @@ export class VideoHandler
         }
     }
     /**
-     * 
-     * @param {HTMLInputElement} checkbox 
+     * toggle if the video have to be display automatically
+     * @param {HTMLInputElement} checkbox checkbox Element
      */
     toggleAutoDisplay(checkbox)
     {

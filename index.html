@@ -10,6 +10,7 @@
     <script src="./assets/scripts/script.js" type="module"></script>
   </head>
   <body>
+    <!-- navigation -->
     <nav class="video-controller">
         <div class="streamers-list"></div>
         <div class="btns-list">
@@ -31,55 +32,64 @@
         </svg>
       </button>
     </nav>
+    <!-- container for the videos -->
     <div class="video-container layout"></div>
+    <!-- modal of layout selection -->
     <div id="layout-selection">
         <div class="layout layout-1 layout-1-a" data-layout="1-a">
             <div class="layout-cell"></div>
         </div>
         <div class="layout layout-2 layout-2-a" data-layout="2-a">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
         </div>
         <div class="layout layout-2 layout-2-b" data-layout="2-b">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
         </div>
         <div class="layout layout-3 layout-3-a" data-layout="3-a">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div>
         <div class="layout layout-3 layout-3-b" data-layout="3-b">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div>
         <div class="layout layout-3 layout-3-c" data-layout="3-c">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div>
         <div class="layout layout-3 layout-3-d" data-layout="3-d">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div>
         <div class="layout layout-3 layout-3-e" data-layout="3-e">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div>
         <div class="layout layout-3 layout-3-f" data-layout="3-f">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div><!-- 
         <div class="layout layout-3 layout-3-g" data-layout="3-g">
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
-            <div class="layout-cell"></div>
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
         </div> -->
+        <div class="layout layout-4 layout-4-a" data-layout="4-a">
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+            <div class="layout-cell layout-child-3"></div>
+            <div class="layout-cell layout-child-4"></div>
+        </div>
     </div>
+    <!-- svg used in the page -->
     <svg xmlns="http://www.w3.org/2000/svg" class="hide">
         <symbol viewBox="0 0 512 512" id="svg-chevron">
             <path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 345c-9.4 9.4-24.6 9.4-33.9 0L135 241z"/>

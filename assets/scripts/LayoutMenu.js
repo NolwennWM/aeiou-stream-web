@@ -2,8 +2,11 @@
 
 export class LayoutMenu 
 {
-    layoutsList = ["layout-1-a", "layout-2-a", "layout-2-b", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */];
+    layoutsList = ["layout-1-a", "layout-2-a", "layout-2-b", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */, "layout-4-a"];
     storageName = "layout-setting";
+    /**
+     * control the layout of the application
+     */
     constructor()
     {
         this.getSettings();
@@ -97,12 +100,19 @@ export class LayoutMenu
         }
         
     }
+    /**
+     * Save the settings of the application
+     * @param {Object} settings settings to save (no deep save)
+     */
     saveSettings(settings)
     {
         this.getSettings();
         this.settings = {...this.settings, ...settings};
         localStorage.setItem(this.storageName, JSON.stringify(this.settings));
     }
+    /**
+     * get settings of the application.
+     */
     getSettings()
     {
         this.settings = JSON.parse(localStorage.getItem(this.storageName)??"{}");
