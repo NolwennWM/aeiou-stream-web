@@ -25,12 +25,15 @@ export class VideoHandler
     {
         const list = document.querySelector(".streamers-list");
         if(!streamers || !list)return;
+        let i = 0;
         for (const name in streamers) 
         {
+            i++;
             const info = streamers[name];
 
             const button = document.createElement("button");
             button.dataset.streamer = name;
+            button.title = `Affiche le stream de ${name}`;
             button.addEventListener("click", ()=>this.toggleStreamer(button));
 
             const img = document.createElement("img");
@@ -43,6 +46,11 @@ export class VideoHandler
             button.append(img, badge);
 
             list.append(button);
+
+            const toMove = document.createElement("div");
+            toMove.append(img.cloneNode());
+            toMove.classList.add("move-layout", "layout-child-"+i, "hide");
+            this.layoutMenu.appendToMoveMenu(toMove, "player_"+name);
         }
 
         const autoDisplayBtn = document.querySelector("#auto-display-checkbox");
@@ -66,6 +74,14 @@ export class VideoHandler
         {
             button.classList.remove("selected");
             player.remove();
+            this.layoutMenu.toggleMoveItem(id, false);
+
+            for (let i = 0; i < container.children.length; i++) {
+                const ovenVideo = container.children[i];
+                ovenVideo.classList.remove("layout-child-"+ovenVideo.dataset.layoutChild);
+                ovenVideo.classList.add("layout-child-"+i);
+                ovenVideo.dataset.layoutChild = i;
+            }
         }
         else if(!player && (force === true|| force === undefined))
         {
@@ -77,14 +93,19 @@ export class VideoHandler
             const optionsStreamer = new VideoOption(streamers[name]);
             OvenPlayer.create(id, optionsStreamer);
             button.classList.add("selected");
-        }
-        const players = container.children.length;
-        
-        this.layoutMenu.setLayoutVideo();
-        this.layoutMenu.toggleVisibleLayout(players);
 
-        const OvenVideo = document.querySelector("#"+id);
-        OvenVideo?.classList.add("layout-child-"+(players+1));
+            this.layoutMenu.toggleMoveItem(id, true);
+
+            const ovenVideo = document.querySelector("#"+id);
+            if(ovenVideo)
+            {
+                ovenVideo.classList.add("layout-child-"+(container.children.length));
+                ovenVideo.dataset.layoutChild = container.children.length;
+            }
+        }
+
+        this.layoutMenu.setLayoutVideo();
+        this.layoutMenu.toggleVisibleLayout(container.children.length);
     }
     /**
      * Launch request on each streamers for check which one is online.

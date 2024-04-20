@@ -20,6 +20,7 @@ export class LayoutMenu
         const 
             layoutBtn = document.querySelector("#layout-btn"), 
             navBtn = document.querySelector("#nav-btn"),
+            moveBtn = document.querySelector("#move-btn"),
             layouts = document.querySelectorAll("#layout-selection .layout");
     
         if(!layoutBtn || !layouts.length)return;
@@ -32,6 +33,7 @@ export class LayoutMenu
             layout.addEventListener("click", ()=>this.setLayoutVideoEvent(layout));
         }
     
+        moveBtn?.addEventListener("click", this.toggleMoveMenu);
         navBtn?.addEventListener("click", this.toggleNav);
         this.toggleVisibleLayout(0);
     }
@@ -41,9 +43,7 @@ export class LayoutMenu
     toggleLayoutSelection()
     {
         const layoutSelection = document.querySelector("#layout-selection");
-        if(!layoutSelection)return;
-        if(layoutSelection.style.display) layoutSelection.style.display = "";
-        else layoutSelection.style.display = "grid";
+        layoutSelection?.classList.toggle("hide");
     }
     /**
      * Handle the click on the layout selection
@@ -59,18 +59,21 @@ export class LayoutMenu
     setLayoutVideo(layoutId=undefined)
     {
         const videoContainer = document.querySelector(".video-container");
+        const videoMoveMenu = document.querySelector("#move-videos");
         const nbPlayers = videoContainer.children.length;
+
         let layout = layoutId;
         if(!layout) layout = this.settings["layout-"+nbPlayers];
         if(!layout) layout = nbPlayers + "-a";
-        if(!videoContainer)return;
 
-        videoContainer.classList.remove(...this.layoutsList)
-        videoContainer.classList.add("layout-"+layout)
+        videoContainer?.classList.remove(...this.layoutsList);
+        videoContainer?.classList.add("layout-"+layout);
+        videoMoveMenu?.classList.remove(...this.layoutsList);
+        videoMoveMenu?.classList.add("layout-"+layout);
 
         const settings = {};
         settings["layout-"+nbPlayers] = layout;
-        this.saveSettings(settings)
+        this.saveSettings(settings);
     }
     /**
      * Open or close the navbar
@@ -99,6 +102,36 @@ export class LayoutMenu
             }
         }
         
+    }
+    /**
+     * Open or close the modal for move videos
+     */
+    toggleMoveMenu()
+    {
+        const moveContainer = document.querySelector("#move-videos");
+        moveContainer?.classList.toggle("hide");
+    }
+    /**
+     * Add a tag in the move menu.
+     * @param {HTMLElement} tag container to move
+     * @param {string} id id of the video container
+     */
+    appendToMoveMenu(tag, id)
+    {
+        const moveContainer = document.querySelector("#move-videos");
+        if(!moveContainer)return;
+        tag.dataset.for = id;
+        moveContainer.append(tag);
+    }
+    /**
+     * toggle the icone of the identified streamer in the move menu
+     * @param {string} id identifiant to toggle
+     * @param {boolean} force force the toggle
+     */
+    toggleMoveItem(id, force=undefined)
+    {
+        const toMove = document.querySelector(`[data-for="${id}"]`);
+        toMove?.classList.toggle("hide", !force);
     }
     /**
      * Save the settings of the application

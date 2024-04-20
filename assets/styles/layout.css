@@ -5,6 +5,8 @@
     --btn-nav-background-color: rgba(144, 238, 144, 0.2);
     --btn-grid-color: rgb(255, 182, 193);
     --btn-grid-background-color: rgba(255, 182, 193, 0.2);
+    --btn-move-color: rgb(173, 216, 230);
+    --btn-move-background-color: rgba(173, 216, 230, 0.2);
     --btn-repeat-color-on: rgb(144, 238, 144);
     --btn-repeat-background-color-on: rgba(144, 238, 144, 0.2);
     --btn-repeat-color-off: rgb(240, 128, 128);
@@ -151,6 +153,17 @@ body
                 fill: var(--btn-grid-color);
             }
         }
+        &#move-btn
+        {
+            &:hover
+            {
+                background-color: var(--btn-move-background-color);
+            }
+            & svg
+            {
+                fill: var(--btn-move-color);
+            }
+        }
         &#auto-display-btn
         {
             & svg
@@ -176,7 +189,7 @@ body
         }
     } 
 }
-#layout-selection
+.modal
 {
     position: absolute;
     top: 50%;
@@ -188,12 +201,33 @@ body
     border: 2px solid black;
     background-color: rgb(31, 39, 39);
     border-radius: 10px;
-    display: none;
+    padding: 10px;
+}
+#move-videos
+{
+    display: grid;
+    gap: 10px;
+    & .move-layout
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--background-color);
+        border-radius: 5px;
+        & img
+        {
+            width: 64px;
+            height: 64px;
+        }
+    }
+}
+#layout-selection
+{
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     align-items: center;
     gap: 10px;
-    padding: 10px;
     & .layout
     {
         padding: 5px;
@@ -290,5 +324,5 @@ body
 }
 .hide
 {
-    display: none;
+    display: none !important;
 }
