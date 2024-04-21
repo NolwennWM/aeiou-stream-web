@@ -74,19 +74,20 @@ export class VideoHandler
         {
             button.classList.remove("selected");
             player.remove();
-            this.layoutMenu.setMoveItemClass(id,"layout-child-"+player.dataset.layoutChild, false);
-            this.layoutMenu.setMoveItemClass(id,"hide", true);
+            this.layoutMenu.toggleMoveItemClass(id,"layout-child-"+player.dataset.layoutChild, false);
+            this.layoutMenu.toggleMoveItemClass(id,"hide", true);
 
             for (let i = 0; i < container.children.length; i++) {
                 const ovenVideo = container.children[i];
                 const oldClass = "layout-child-"+ovenVideo.dataset.layoutChild;
                 const newClass = "layout-child-"+i;
+
                 ovenVideo.classList.remove(oldClass);
                 ovenVideo.classList.add(newClass);
                 ovenVideo.dataset.layoutChild = i;
 
-                this.layoutMenu.setMoveItemClass(ovenVideo.id, oldClass, false);
-                this.layoutMenu.setMoveItemClass(ovenVideo.id, newClass, true);
+                this.layoutMenu.toggleMoveItemClass(ovenVideo.id, oldClass, false);
+                this.layoutMenu.toggleMoveItemClass(ovenVideo.id, newClass, true);
             }
         }
         else if(!player && (force === true|| force === undefined))
@@ -102,8 +103,8 @@ export class VideoHandler
 
             const layoutClass = "layout-child-"+container.children.length;
             
-            this.layoutMenu.setMoveItemClass(id,layoutClass, true);
-            this.layoutMenu.setMoveItemClass(id,"hide", false);
+            this.layoutMenu.toggleMoveItemClass(id,layoutClass, true);
+            this.layoutMenu.toggleMoveItemClass(id,"hide", false);
 
             const ovenVideo = document.querySelector("#"+id);
             if(ovenVideo)

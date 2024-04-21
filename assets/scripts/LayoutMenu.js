@@ -136,7 +136,7 @@ export class LayoutMenu
      * @param {string} className layout class
      * @param {boolean} force force the toggle
      */
-    setMoveItemClass(id, className, force=undefined)
+    toggleMoveItemClass(id, className, force=undefined)
     {
         const toMove = document.querySelector(`[data-for="${id}"]`);
         toMove?.classList.toggle(className, force);
