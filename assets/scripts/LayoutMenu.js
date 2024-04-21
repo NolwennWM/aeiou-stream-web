@@ -25,15 +25,15 @@ export class LayoutMenu
     
         if(!layoutBtn || !layouts.length)return;
     
-        layoutBtn.addEventListener("click", this.toggleLayoutSelection);
+        layoutBtn.addEventListener("click", this.toggleLayoutSelection.bind(this));
     
         for (const layout of layouts) 
         {
-            layout.addEventListener("click", this.toggleLayoutSelection);
+            layout.addEventListener("click", this.closeModals);
             layout.addEventListener("click", ()=>this.setLayoutVideoEvent(layout));
         }
     
-        moveBtn?.addEventListener("click", this.toggleMoveMenu);
+        moveBtn?.addEventListener("click", this.toggleMoveMenu.bind(this));
         navBtn?.addEventListener("click", this.toggleNav);
         this.toggleVisibleLayout(0);
     }
@@ -42,6 +42,7 @@ export class LayoutMenu
      */
     toggleLayoutSelection()
     {
+        this.closeModals();
         const layoutSelection = document.querySelector("#layout-selection");
         layoutSelection?.classList.toggle("hide");
     }
@@ -108,6 +109,7 @@ export class LayoutMenu
      */
     toggleMoveMenu()
     {
+        this.closeModals();
         const moveContainer = document.querySelector("#move-videos");
         moveContainer?.classList.toggle("hide");
     }
@@ -121,17 +123,87 @@ export class LayoutMenu
         const moveContainer = document.querySelector("#move-videos");
         if(!moveContainer)return;
         tag.dataset.for = id;
+        tag.draggable = true;
         moveContainer.append(tag);
+
+        tag.addEventListener("dragstart",this.dragStart.bind(this));
+        tag.addEventListener("dragover",this.dragOver.bind(this));
+        tag.addEventListener("drop",this.dropHandler.bind(this));
     }
     /**
      * toggle the icone of the identified streamer in the move menu
      * @param {string} id identifiant to toggle
+     * @param {string} className layout class
      * @param {boolean} force force the toggle
      */
-    toggleMoveItem(id, force=undefined)
+    setMoveItemClass(id, className, force=undefined)
     {
         const toMove = document.querySelector(`[data-for="${id}"]`);
-        toMove?.classList.toggle("hide", !force);
+        toMove?.classList.toggle(className, force);
+    }
+    /**
+     * 
+     * @param {DragEvent} ev dragstart event
+     */
+    dragStart(ev)
+    {
+        const target = this.getDragAndDropTarget(ev);
+        if(!target)return;
+
+        ev.dataTransfer.setData("text", target.dataset.for);
+        ev.dataTransfer.effectAllowed = "move";
+    }
+    /**
+     * 
+     * @param {DragEvent} ev dragover event
+     */
+    dragOver(ev)
+    {
+        ev.preventDefault()
+    }
+    /**
+     * 
+     * @param {DragEvent} ev drop event
+     */
+    dropHandler(ev)
+    {
+        ev.preventDefault()
+        const target2 = this.getDragAndDropTarget(ev);
+        const data = ev.dataTransfer.getData("text");
+        const target1 = document.querySelector(`[data-for="${data}"]`);
+        if(!target1 || !target2 || target1 === target2)return;
+
+        const video1 = document.querySelector("#"+data);
+        const video2 = document.querySelector("#"+target2.dataset.for);
+        if(!video1 || !video2)return;
+
+        const class1 = "layout-child-"+video1.dataset.layoutChild;
+        const class2 = "layout-child-"+video2.dataset.layoutChild;
+
+        video1.classList.remove(class1);
+        video1.classList.add(class2);
+
+        video2.classList.remove(class2);
+        video2.classList.add(class1);
+
+        target1.classList.remove(class1);
+        target1.classList.add(class2);
+
+        target2.classList.remove(class2);
+        target2.classList.add(class1);
+
+        const tmp = video1.dataset.layoutChild;
+        video1.dataset.layoutChild = video2.dataset.layoutChild;
+        video2.dataset.layoutChild = tmp;
+    }
+    /**
+     * get the target of the event.
+     * @param {Event} ev Event Object
+     * @returns {HTMLElement} target of the event
+     */
+    getDragAndDropTarget(ev)
+    {
+        return ev.target.dataset.for?ev.target:ev.target.closest("[data-for]");
     }
     /**
      * Save the settings of the application
@@ -149,5 +221,13 @@ export class LayoutMenu
     getSettings()
     {
         this.settings = JSON.parse(localStorage.getItem(this.storageName)??"{}");
+    }
+    /**
+     * close opened modal
+     */
+    closeModals()
+    {
+        const modals = document.querySelectorAll(".modal:not(.hide)");
+        modals.forEach(m=>m.classList.add("hide"));
     }
 }

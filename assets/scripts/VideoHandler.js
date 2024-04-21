@@ -49,7 +49,7 @@ export class VideoHandler
 
             const toMove = document.createElement("div");
             toMove.append(img.cloneNode());
-            toMove.classList.add("move-layout", "layout-child-"+i, "hide");
+            toMove.classList.add("move-layout", "hide");
             this.layoutMenu.appendToMoveMenu(toMove, "player_"+name);
         }
 
@@ -74,13 +74,19 @@ export class VideoHandler
         {
             button.classList.remove("selected");
             player.remove();
-            this.layoutMenu.toggleMoveItem(id, false);
+            this.layoutMenu.setMoveItemClass(id,"layout-child-"+player.dataset.layoutChild, false);
+            this.layoutMenu.setMoveItemClass(id,"hide", true);
 
             for (let i = 0; i < container.children.length; i++) {
                 const ovenVideo = container.children[i];
-                ovenVideo.classList.remove("layout-child-"+ovenVideo.dataset.layoutChild);
-                ovenVideo.classList.add("layout-child-"+i);
+                const oldClass = "layout-child-"+ovenVideo.dataset.layoutChild;
+                const newClass = "layout-child-"+i;
+                ovenVideo.classList.remove(oldClass);
+                ovenVideo.classList.add(newClass);
                 ovenVideo.dataset.layoutChild = i;
+
+                this.layoutMenu.setMoveItemClass(ovenVideo.id, oldClass, false);
+                this.layoutMenu.setMoveItemClass(ovenVideo.id, newClass, true);
             }
         }
         else if(!player && (force === true|| force === undefined))
@@ -94,12 +100,15 @@ export class VideoHandler
             OvenPlayer.create(id, optionsStreamer);
             button.classList.add("selected");
 
-            this.layoutMenu.toggleMoveItem(id, true);
+            const layoutClass = "layout-child-"+container.children.length;
+            
+            this.layoutMenu.setMoveItemClass(id,layoutClass, true);
+            this.layoutMenu.setMoveItemClass(id,"hide", false);
 
             const ovenVideo = document.querySelector("#"+id);
             if(ovenVideo)
             {
-                ovenVideo.classList.add("layout-child-"+(container.children.length));
+                ovenVideo.classList.add(layoutClass);
                 ovenVideo.dataset.layoutChild = container.children.length;
             }
         }
