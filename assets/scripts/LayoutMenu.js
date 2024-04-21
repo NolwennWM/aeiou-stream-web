@@ -21,6 +21,7 @@ export class LayoutMenu
             layoutBtn = document.querySelector("#layout-btn"), 
             navBtn = document.querySelector("#nav-btn"),
             moveBtn = document.querySelector("#move-btn"),
+            overlay = document.querySelector("#overlay"),
             layouts = document.querySelectorAll("#layout-selection .layout");
     
         if(!layoutBtn || !layouts.length)return;
@@ -32,19 +33,25 @@ export class LayoutMenu
             layout.addEventListener("click", this.closeModals);
             layout.addEventListener("click", ()=>this.setLayoutVideoEvent(layout));
         }
-    
+        
+        overlay?.addEventListener("click", this.closeModals.bind(this));
         moveBtn?.addEventListener("click", this.toggleMoveMenu.bind(this));
         navBtn?.addEventListener("click", this.toggleNav);
         this.toggleVisibleLayout(0);
+
+        this.overlay = overlay;
+        this.layouts = layouts;
     }
     /**
      * Open the modal of layout selection
      */
     toggleLayoutSelection()
     {
-        this.closeModals();
         const layoutSelection = document.querySelector("#layout-selection");
-        layoutSelection?.classList.toggle("hide");
+        if(!layoutSelection)return;
+        this.closeModals(layoutSelection);
+        this.toggleOverlay(true);
+        layoutSelection.classList.toggle("hide");
     }
     /**
      * Handle the click on the layout selection
@@ -90,7 +97,7 @@ export class LayoutMenu
      */
     toggleVisibleLayout(players)
     {
-        const layouts = document.querySelectorAll("#layout-selection .layout");
+        const layouts = this.layouts;
         for (const layout of layouts) 
         {
             if(layout.classList.contains(`layout-${players}`))
@@ -109,9 +116,12 @@ export class LayoutMenu
      */
     toggleMoveMenu()
     {
-        this.closeModals();
+        this.toggleOverlay();
         const moveContainer = document.querySelector("#move-videos");
-        moveContainer?.classList.toggle("hide");
+        if(!moveContainer)return;
+        this.closeModals(moveContainer);
+        this.toggleOverlay(true);
+        moveContainer.classList.toggle("hide");
     }
     /**
      * Add a tag in the move menu.
@@ -142,7 +152,7 @@ export class LayoutMenu
         toMove?.classList.toggle(className, force);
     }
     /**
-     * 
+     * Save the target of the dragStart.
      * @param {DragEvent} ev dragstart event
      */
     dragStart(ev)
@@ -154,7 +164,7 @@ export class LayoutMenu
         ev.dataTransfer.effectAllowed = "move";
     }
     /**
-     * 
+     * prevent default event of dragover
      * @param {DragEvent} ev dragover event
      */
     dragOver(ev)
@@ -162,7 +172,7 @@ export class LayoutMenu
         ev.preventDefault()
     }
     /**
-     * 
+     * exchange place of the two video players.
      * @param {DragEvent} ev drop event
      */
     dropHandler(ev)
@@ -224,10 +234,23 @@ export class LayoutMenu
     }
     /**
      * close opened modal
+     * @param {HTMLElement|undefined} except modal to not close
      */
-    closeModals()
+    closeModals(except=undefined)
     {
         const modals = document.querySelectorAll(".modal:not(.hide)");
-        modals.forEach(m=>m.classList.add("hide"));
+        this.toggleOverlay(false);
+        modals.forEach(m=>{
+            if(m===except)return;
+            m.classList.add("hide")
+        });
+    }
+    /**
+     * show or hide overlay
+     * @param {boolean|undefined} force force to add or delete overlat
+     */
+    toggleOverlay(force)
+    {
+        this.overlay?.classList.toggle("hide", !force);
     }
 }
