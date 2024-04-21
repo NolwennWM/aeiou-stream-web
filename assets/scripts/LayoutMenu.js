@@ -23,6 +23,8 @@ export class LayoutMenu
             moveBtn = document.querySelector("#move-btn"),
             overlay = document.querySelector("#overlay"),
             layouts = document.querySelectorAll("#layout-selection .layout");
+        this.overlay = overlay;
+        this.layouts = layouts;
     
         if(!layoutBtn || !layouts.length)return;
     
@@ -38,9 +40,6 @@ export class LayoutMenu
         moveBtn?.addEventListener("click", this.toggleMoveMenu.bind(this));
         navBtn?.addEventListener("click", this.toggleNav);
         this.toggleVisibleLayout(0);
-
-        this.overlay = overlay;
-        this.layouts = layouts;
     }
     /**
      * Open the modal of layout selection

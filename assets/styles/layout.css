@@ -7,10 +7,10 @@
     --btn-grid-background-color: rgba(255, 182, 193, 0.2);
     --btn-move-color: rgb(173, 216, 230);
     --btn-move-background-color: rgba(173, 216, 230, 0.2);
-    --btn-repeat-color-on: rgb(144, 238, 144);
-    --btn-repeat-background-color-on: rgba(144, 238, 144, 0.2);
-    --btn-repeat-color-off: rgb(240, 128, 128);
-    --btn-repeat-background-color-off: rgba(240, 128, 128, 0.2);
+    --btn-color-on: rgb(144, 238, 144);
+    --btn-background-color-on: rgba(144, 238, 144, 0.2);
+    --btn-color-off: rgb(240, 128, 128);
+    --btn-background-color-off: rgba(240, 128, 128, 0.2);
     --btn-opacity: 0.1;
     --streamer-selected: rgb(172, 255, 47);
     --streamer-live: rgb(172, 255, 47);
@@ -164,26 +164,26 @@ body
                 fill: var(--btn-move-color);
             }
         }
-        &#auto-display-btn
+        &#auto-display-btn, &#watermark-btn
         {
             & svg
             {
-                fill: var(--btn-repeat-color-off);
+                fill: var(--btn-color-off);
             }
             &:hover
             {
-                background-color: var(--btn-repeat-background-color-off);
+                background-color: var(--btn-background-color-off);
             }
-            & #auto-display-checkbox
+            & #auto-display-checkbox, & #watermark-checkbox
             {
                 display: none;
                 &:checked + svg
                 {
-                    fill: var(--btn-repeat-color-on);
+                    fill: var(--btn-color-on);
                 }
-                #auto-display-btn:hover:has(&:checked)
+                :is(#auto-display-btn, #watermark-btn):hover:has(&:checked)
                 {
-                    background-color: var(--btn-repeat-background-color-on);
+                    background-color: var(--btn-background-color-on);
                 }
             }
         }
@@ -335,4 +335,8 @@ body
 .hide
 {
     display: none !important;
+}
+.hide-watermark .op-watermark-container
+{
+    display: none;
 }

@@ -6,6 +6,7 @@ export class VideoHandler
 {
     firstload = true;
     autodisplay = true;
+    watermark = true;
     /**
      * Handle the video players
      * @param {LayoutMenu} layoutMenu Layout Menu Controller
@@ -13,7 +14,8 @@ export class VideoHandler
     constructor(layoutMenu)
     {
         this.layoutMenu = layoutMenu;
-        this.autodisplay = this.layoutMenu.settings.autodisplay??true;
+        this.autodisplay = this.layoutMenu.settings.autodisplay??this.autodisplay ;
+        this.watermark = (!this.layoutMenu.settings.watermark)??this.watermark;
         this.displayStreamers();
     }
     /**
@@ -56,6 +58,11 @@ export class VideoHandler
         const autoDisplayBtn = document.querySelector("#auto-display-checkbox");
         autoDisplayBtn?.addEventListener("change", ()=>this.toggleAutoDisplay(autoDisplayBtn));
         autoDisplayBtn.checked = this.autodisplay;
+
+        const watermarkBtn = document.querySelector("#watermark-checkbox");
+        watermarkBtn?.addEventListener("change", ()=>this.toggleWatermark(watermarkBtn));
+        watermarkBtn.checked = this.watermark;
+        document.body.classList.toggle("hide-watermark", !this.watermark);
 
         setInterval(this.checkOnlineStream.bind(this), requestInterval)
         this.checkOnlineStream();
@@ -168,5 +175,15 @@ export class VideoHandler
     {
         this.autodisplay = checkbox.checked;
         this.layoutMenu.saveSettings({autodisplay: checkbox.checked});
+    }
+    /**
+     * toggle the watermarks
+     * @param {HTMLInputElement} checkbox checkbox Element
+     */
+    toggleWatermark(checkbox)
+    {
+        this.watermark = !checkbox.checked;
+        document.body.classList.toggle("hide-watermark", this.watermark);
+        this.layoutMenu.saveSettings({watermark: this.watermark});
     }
 }
