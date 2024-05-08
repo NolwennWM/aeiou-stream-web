@@ -140,7 +140,7 @@ export class LayoutMenu
         tag.addEventListener("drop",this.dropHandler.bind(this));
     }
     /**
-     * toggle the icone of the identified streamer in the move menu
+     * toggle the icon of the identified streamer in the move menu
      * @param {string} id identifiant to toggle
      * @param {string} className layout class
      * @param {boolean} force force the toggle

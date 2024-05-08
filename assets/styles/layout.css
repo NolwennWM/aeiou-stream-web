@@ -83,19 +83,52 @@ body
                 border-color: var(--streamer-selected);
             }
         }
-        & .badge{
+        & .badge, & .viewers
+        {
+            
             position: absolute;
+            bottom: 8px;
+            border: 2px solid var(--background-color);
+            background-color: var(--streamer-off);
+            font-size: 0.7em;
+            padding: 2px;
+            .online &
+            {
+                background-color: var(--streamer-live);
+            }
+            .online.selected &
+            {
+                border-radius: 1em;
+                bottom: 0;
+            }
+        }
+        & .badge
+        {
             display: block;
             border-radius: 50%;
             height: 8px;
             width: 8px;
-            bottom: 8px;
             right: 8px;
-            background-color: var(--streamer-off);
-            border: 2px solid var(--background-color);
             .online &
             {
-                background-color: var(--streamer-live);
+                height: auto;
+                width: auto;
+            }
+            .online.selected &
+            {
+                right: 0;
+                translate: calc(50% - 8px) 0;
+            }
+        }
+        & .viewers
+        {
+            display: none;
+            left: 0;
+            border: 2px solid var(--background-color);
+            .online.selected &
+            {
+                display: inline;
+                translate: calc(-50% + 8px) 0;
             }
         }
     }

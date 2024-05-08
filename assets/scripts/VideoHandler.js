@@ -4,9 +4,16 @@ import { LayoutMenu } from "./LayoutMenu.js";
 
 export class VideoHandler
 {
+    /** @type {boolean} tell if it is the first time the script is loaded */
     firstload = true;
+    /** @type {boolean} tell if the auto display of the video is activated */
     autodisplay = true;
+    /** @type {boolean} tell if the watermarks should be displayed */
     watermark = true;
+
+    /** @type {LayoutMenu} Layout Menu Controller */
+    layoutMenu;
+
     /**
      * Handle the video players
      * @param {LayoutMenu} layoutMenu Layout Menu Controller
@@ -45,7 +52,11 @@ export class VideoHandler
             const badge = document.createElement("span");
             badge.classList.add("badge");
 
-            button.append(img, badge);
+            const viewers = document.createElement("span");
+            viewers.classList.add("viewers");
+            viewers.textContent = "0";
+
+            button.append(img, badge, viewers);
 
             list.append(button);
 
@@ -152,20 +163,56 @@ export class VideoHandler
         const button = document.querySelector(`button[data-streamer="${streamer}"]`);
         if(!button) return;
 
+        const online = response.status == 200;
+        
         if(response.ok) 
         {
-            const online = response.status == 200;
             if(online)
             {
                 button.classList.add("online");
+                response.json().then(data=>this.handleResponseData(data, button));
             }
-            else button.classList.remove("online");
 
             if(this.firstload || this.autodisplay)
             {
                 this.toggleStreamer(button, online);
             }
         }
+        if(!online)
+        {
+            button.classList.remove("online");
+            const badge = button.querySelector(".badge");
+            if(!badge)return;
+            badge.textContent = "";
+        }
+    }
+    /**
+     * Display data about the current stream
+     * @param {Object} data data about the current stream
+     * @param {HTMLElement} button button of the current streamer
+     */
+    handleResponseData(data, button)
+    {
+        const 
+            /** @type {string} number of people watching the stream */
+            viewers = data.response.totalConnections??"0",
+            /** @type {number} timestamp of the start time */
+            since = Date.parse(data.response.createdTime),
+            /** @type {number} timestamp of the current time */
+            now = Date.now(),
+            /** @type {number} minutes since the stream started */
+            minutes = Math.floor((now - since)/1000/60),
+            /** @type {number} hours since the stream started */
+            hours = Math.floor(minutes / 60),
+            /** @type {HTMLElement} viewers indicator */
+            counter = button.querySelector(".viewers"),
+            /** @type {HTMLElement} time indicator */
+            badge = button.querySelector(".badge");
+
+        if(!counter || !badge)return;
+
+        counter.textContent = viewers;
+        badge.textContent = hours>0? `${hours}h${minutes%60}m`:`${minutes}m`;
     }
     /**
      * toggle if the video have to be display automatically
