@@ -145,8 +145,7 @@ export class VideoHandler
         {
             requests.push(fetch(streamers[name].url+"?streamer="+name));
         }
-        
-        const responses = await Promise.all(requests);
+        const responses = await Promise.allSettled(requests);
         responses.forEach(this.handleOnlineState.bind(this));
         this.firstload = false;
 
@@ -154,10 +153,12 @@ export class VideoHandler
     }
     /**
      * Change the badge for display which streamer is online.
-     * @param {Response} response response object of fetch
+     * @param {{status:string,value:Response}} responseData response object of fetch
      */
-    handleOnlineState(response)
+    handleOnlineState(responseData)
     {
+        if(responseData.status !== "fulfilled")return;
+        const response = responseData.value;
         const streamer = (new URL(response.url)).searchParams.get("streamer");
         if(!streamer) return;
         const button = document.querySelector(`button[data-streamer="${streamer}"]`);
