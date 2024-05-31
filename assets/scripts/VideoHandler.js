@@ -1,6 +1,6 @@
 "use strict";
-import { streamers, VideoOption, requestInterval, envProd } from "./Config.local.js";
-// import { streamers, VideoOption, requestInterval, envProd } from "./Config.js";
+// import { streamers, VideoOption, requestInterval, envProd } from "./Config.local.js";
+import { streamers, VideoOption, requestInterval, envProd } from "./Config.js";
 import { LayoutMenu } from "./LayoutMenu.js";
 
 export class VideoHandler
