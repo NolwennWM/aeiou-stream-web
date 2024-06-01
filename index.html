@@ -3,24 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content=" default-src 'none'; 
-                script-src 'self' https://cdn.jsdelivr.net; 
-                connect-src 'self' https://*.malan.fr wss://*.malan.fr https://*.ninime.fr wss://*.ninime.fr https://*.kazei.moe wss://*.kazei.moe; 
-                img-src 'self'; 
-                style-src 'self' 'unsafe-inline';
-                font-src 'self' data:;"
-    />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content=" default-src 'none'; 
-                script-src 'self' https://cdn.jsdelivr.net; 
-                connect-src 'self' https://*.malan.fr wss://*.malan.fr https://*.ninime.fr wss://*.ninime.fr https://*.kazei.moe wss://*.kazei.moe; 
-                img-src 'self'; 
-                style-src 'self' 'unsafe-inline';
-                font-src 'self' data:;"
-    />
     <title>Multi Stream</title>
     <link rel="stylesheet" href="./assets/styles/video.css" />
     <link rel="stylesheet" href="./assets/styles/layout.css" />
@@ -63,7 +45,7 @@
     </nav>
     <!-- container for the videos -->
     <div class="video-container layout"></div>
-    <!-- modal of layout selection -->
+    <!-- modal of layout selection TODO : generate with js-->
     <div id="layout-selection" class="hide modal">
         <div class="layout layout-1 layout-1-a" data-layout="1-a">
             <div class="layout-cell"></div>
@@ -73,6 +55,10 @@
             <div class="layout-cell layout-child-2"></div>
         </div>
         <div class="layout layout-2 layout-2-b" data-layout="2-b">
+            <div class="layout-cell layout-child-1"></div>
+            <div class="layout-cell layout-child-2"></div>
+        </div>
+        <div class="layout layout-2 layout-2-c" data-layout="2-c">
             <div class="layout-cell layout-child-1"></div>
             <div class="layout-cell layout-child-2"></div>
         </div>

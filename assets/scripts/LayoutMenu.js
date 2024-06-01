@@ -2,7 +2,7 @@
 
 export class LayoutMenu 
 {
-    layoutsList = ["layout-1-a", "layout-2-a", "layout-2-b", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */, "layout-4-a"];
+    layoutsList = ["layout-1-a", "layout-2-a", "layout-2-b", "layout-2-c", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */, "layout-4-a"];
     storageName = "layout-setting";
     /**
      * control the layout of the application
@@ -32,7 +32,7 @@ export class LayoutMenu
     
         for (const layout of layouts) 
         {
-            layout.addEventListener("click", this.closeModals);
+            layout.addEventListener("click", this.closeModals.bind(this));
             layout.addEventListener("click", ()=>this.setLayoutVideoEvent(layout));
         }
         
@@ -49,8 +49,9 @@ export class LayoutMenu
         const layoutSelection = document.querySelector("#layout-selection");
         if(!layoutSelection)return;
         this.closeModals(layoutSelection);
-        this.toggleOverlay(true);
-        layoutSelection.classList.toggle("hide");
+        const toggle = layoutSelection.classList.toggle("hide");
+        this.toggleOverlay(toggle);
+        
     }
     /**
      * Handle the click on the layout selection
@@ -119,8 +120,8 @@ export class LayoutMenu
         const moveContainer = document.querySelector("#move-videos");
         if(!moveContainer)return;
         this.closeModals(moveContainer);
-        this.toggleOverlay(true);
-        moveContainer.classList.toggle("hide");
+        const toggle = moveContainer.classList.toggle("hide");
+        this.toggleOverlay(toggle);
     }
     /**
      * Add a tag in the move menu.
@@ -238,7 +239,7 @@ export class LayoutMenu
     closeModals(except=undefined)
     {
         const modals = document.querySelectorAll(".modal:not(.hide)");
-        this.toggleOverlay(false);
+        this.toggleOverlay(true);
         modals.forEach(m=>{
             if(m===except)return;
             m.classList.add("hide")
@@ -250,6 +251,6 @@ export class LayoutMenu
      */
     toggleOverlay(force)
     {
-        this.overlay?.classList.toggle("hide", !force);
+        this.overlay?.classList.toggle("hide", force);
     }
 }

@@ -1,22 +1,6 @@
-:root
-{
-    --background-color: #333333;
-    --btn-nav-color: rgb(144, 238, 144);
-    --btn-nav-background-color: rgba(144, 238, 144, 0.2);
-    --btn-grid-color: rgb(255, 182, 193);
-    --btn-grid-background-color: rgba(255, 182, 193, 0.2);
-    --btn-move-color: rgb(173, 216, 230);
-    --btn-move-background-color: rgba(173, 216, 230, 0.2);
-    --btn-color-on: rgb(144, 238, 144);
-    --btn-background-color-on: rgba(144, 238, 144, 0.2);
-    --btn-color-off: rgb(240, 128, 128);
-    --btn-background-color-off: rgba(240, 128, 128, 0.2);
-    --btn-opacity: 0.1;
-    --streamer-selected: rgb(172, 255, 47);
-    --streamer-live: rgb(172, 255, 47);
-    --streamer-off: rgb(169, 169, 169);
-    --nav-height: 64px;
-}
+@import url("./settings.css");
+@import url("./layouts.css");
+
 *[class]
 {
     box-sizing: border-box;
@@ -246,8 +230,9 @@ body
     border-radius: 10px;
     padding: 10px;
 }
-#move-videos
+#move-videos.modal
 {
+    position: absolute;
     display: grid;
     gap: 10px;
     & .move-layout
@@ -257,6 +242,7 @@ body
         align-items: center;
         background-color: var(--background-color);
         border-radius: 5px;
+        border: 5px solid rgb(31, 39, 39);
         & img
         {
             width: 64px;
@@ -281,88 +267,8 @@ body
         & .layout-cell
         {
             background-color: lightslategrey;
+            border: 2px solid var(--background-color);
         }
-    }
-}
-.layout
-{
-    display: grid;
-    &.layout-1-a
-    {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-    }
-    &.layout-2-a
-    {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 1fr;
-        & .layout-child-1{grid-area: 1/1/3/2;}
-        & .layout-child-2{grid-area: 1/2/3/3;}
-    }
-    &.layout-2-b
-    {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
-        & .layout-child-1{grid-area: 1/1/2/3;}
-        & .layout-child-2{grid-area: 2/1/3/3;}
-    }
-    &.layout-3-a, &.layout-3-b, &.layout-3-c, &.layout-3-d, &.layout-3-g, &.layout-4-a
-    {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-    }
-    &.layout-3-a
-    {
-        & .layout-child-1{grid-area: 1/1/2/3;}
-        & .layout-child-2{grid-area: 2/1/3/2;}
-        & .layout-child-3{grid-area: 2/2/3/3;}
-    }
-    &.layout-3-b
-    {
-        & .layout-child-1{grid-area: 1/1/2/2;}
-        & .layout-child-2{grid-area: 1/2/2/3;}
-        & .layout-child-3{grid-area: 2/1/3/3;}
-    }
-    &.layout-3-c
-    {
-        & .layout-child-1{grid-area: 1/1/3/2;}
-        & .layout-child-2{grid-area: 1/2/2/3;}
-        & .layout-child-3{grid-area: 2/2/3/3;}
-    }
-    &.layout-3-d
-    {
-        & .layout-child-1{grid-area: 1/1/2/2;}
-        & .layout-child-2{grid-area: 2/1/3/2;}
-        & .layout-child-3{grid-area: 1/2/3/3;}
-    }
-    /* &.layout-3-g
-    {
-        & .layout-child-1{grid-area: 1/1/2/2;}
-        & .layout-child-2{grid-area: 1/2/2/3;}
-        & .layout-child-3{grid-area: 2/1/3/2;}
-    } */
-    &.layout-3-e
-    {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: 1fr;
-        & .layout-child-1{grid-area: 1/1/2/2;}
-        & .layout-child-2{grid-area: 1/2/2/3;}
-        & .layout-child-3{grid-area: 1/3/2/4;}
-    }
-    &.layout-3-f
-    {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-        & .layout-child-1{grid-area: 1/1/2/2;}
-        & .layout-child-2{grid-area: 2/1/3/2;}
-        & .layout-child-3{grid-area: 3/1/4/2;}
-    }
-    &.layout-4-a
-    {
-        & .layout-child-1{grid-area: 1/1/2/2;}
-        & .layout-child-2{grid-area: 1/2/2/3;}
-        & .layout-child-3{grid-area: 2/1/3/2;}
-        & .layout-child-4{grid-area: 2/2/3/3;}
     }
 }
 .hide
