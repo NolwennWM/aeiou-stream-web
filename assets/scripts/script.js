@@ -7,7 +7,7 @@ if(window.electron)
 {
     startApp();
 }
-else
+else if(navigator.serviceWorker)
 {
     window.addEventListener("swready", startApp);
     // Service worker for hide 404 message in the console.
@@ -15,6 +15,10 @@ else
         ? window.dispatchEvent(new CustomEvent("swready")) // normal reload
         : navigator.serviceWorker.ready.then(_=> location.reload()) // first load or Ctrl+F5
     );
+}
+else
+{
+    startApp();
 }
 
 
