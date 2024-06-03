@@ -27,8 +27,8 @@
         & .layout-child-2
         {
             position: absolute;
-            top: 0;
-            right: 0;
+            bottom: 54px;
+            right: 54px;
             width: var(--layout-2-little-size);
             aspect-ratio: 16/9;
             z-index: 10;
