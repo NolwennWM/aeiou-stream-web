@@ -99,7 +99,7 @@ export class VideoHandler
             for (let i = 0; i < container.children.length; i++) {
                 const ovenVideo = container.children[i];
                 const oldClass = "layout-child-"+ovenVideo.dataset.layoutChild;
-                const newClass = "layout-child-"+i;
+                const newClass = "layout-child-"+(i+1);
 
                 ovenVideo.classList.remove(oldClass);
                 ovenVideo.classList.add(newClass);

@@ -2,7 +2,7 @@
 
 export class LayoutMenu 
 {
-    layoutsList = ["layout-1-a", "layout-2-a", "layout-2-b", "layout-2-c", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */, "layout-4-a"];
+    layoutsList = ["layout-0-a", "layout-1-a", "layout-2-a", "layout-2-b", "layout-2-c", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */, "layout-4-a"];
     storageName = "layout-setting";
     /**
      * control the layout of the application
