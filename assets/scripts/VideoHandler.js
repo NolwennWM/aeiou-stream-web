@@ -130,6 +130,10 @@ export class VideoHandler
             {
                 ovenVideo.classList.add(layoutClass);
                 ovenVideo.dataset.layoutChild = container.children.length;
+
+                const controls= ovenVideo.querySelector(".op-controls-container");
+                const observer = new MutationObserver(this.addToggleHDRButton.bind(this));
+                observer.observe(controls, {childList: true});
             }
         }
 
@@ -232,5 +236,51 @@ export class VideoHandler
         this.watermark = !checkbox.checked;
         document.body.classList.toggle("hide-watermark", this.watermark);
         this.layoutMenu.saveSettings({watermark: this.watermark});
+    }
+    /**
+     * Add the HDR toggle button to the video player settings panel
+     * @param {MutationRecord[]} records Mutation records from the observer
+     */
+    addToggleHDRButton(records)
+    {
+        const record = records[0];
+        
+        if(!record.addedNodes || record.addedNodes.length === 0)return;
+        const settingPanel = record.addedNodes[0];
+        
+        if(!settingPanel.classList.contains("op-setting-panel"))return;
+        const defaultButton = settingPanel.querySelector(".op-setting-item");
+        console.dir(defaultButton);
+        
+        if(!defaultButton)return;
+        const onOff= settingPanel.closest(".ovenplayer")?.classList.contains("hdr") ? "on" : "off";
+        const hdrButton = defaultButton.cloneNode(true);
+        hdrButton.setAttribute("op-panel-type","hdr");
+        hdrButton.setAttribute("op-data-value", onOff);
+        const title = hdrButton.querySelector(".op-setting-item-title");
+        const value = hdrButton.querySelector(".op-setting-item-value");
+        hdrButton.querySelector(".op-setting-item-nexticon")?.remove();
+        title.textContent = "HDR";
+        value.textContent = onOff;
+        
+        settingPanel.querySelector(".op-setting-item-container")?.append(hdrButton);
+
+        hdrButton.addEventListener("click", this.toggleHDRClass.bind(this));
+    }
+    /**
+     * Toggle the HDR class on the video player and update the button state
+     * @param {MouseEvent} e click event from the HDR button
+     */
+    toggleHDRClass(e)
+    {
+        const button = e.currentTarget;
+        const player = button.closest(".ovenplayer");
+        if(!player)return;
+        const isToggle = player.classList.toggle("hdr");
+
+        const value = button.querySelector(".op-setting-item-value");
+        const onOff= isToggle ? "on" : "off";
+        value.textContent = onOff;
+        button.setAttribute("op-data-value",onOff);
     }
 }

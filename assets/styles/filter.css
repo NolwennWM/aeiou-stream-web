@@ -1,0 +1,4 @@
+.hdr video
+{
+    filter: brightness(150%) contrast(130%) saturate(140%) hue-rotate(350deg);
+}
