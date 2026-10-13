@@ -1,6 +1,6 @@
 "use strict";
-// import { streamers, VideoOption, requestInterval, envProd } from "./Config.local.js";
-import { streamers, VideoOption, requestInterval, envProd } from "./Config.js";
+// import { streamers, VideoOption, requestInterval, envProd, connexionLostInterval } from "./Config.local.js";
+import { streamers, VideoOption, requestInterval, envProd, connexionLostInterval } from "./Config.js";
 import { LayoutMenu } from "./LayoutMenu.js";
 
 export class VideoHandler
@@ -92,7 +92,15 @@ export class VideoHandler
         if(!force && player)
         {
             button.classList.remove("selected");
+            const playerObject = OvenPlayer.getPlayerByContainerId(id);
+            
+            if(playerObject)
+            {
+                playerObject.remove();
+            }
+            
             player.remove();
+
             this.layoutMenu.toggleMoveItemClass(id,"layout-child-"+player.dataset.layoutChild, false);
             this.layoutMenu.toggleMoveItemClass(id,"hide", true);
 
@@ -117,7 +125,11 @@ export class VideoHandler
             container.append(video);
 
             const optionsStreamer = new VideoOption(streamers[name]);
-            OvenPlayer.create(id, optionsStreamer);
+            console.log("Creating player with options:", optionsStreamer);
+            
+            const player = OvenPlayer.create(id, optionsStreamer);
+            player.on('stateChanged', this.handleStateChange.bind(player));
+
             button.classList.add("selected");
 
             const layoutClass = "layout-child-"+container.children.length;
@@ -282,5 +294,24 @@ export class VideoHandler
         const onOff= isToggle ? "on" : "off";
         value.textContent = onOff;
         button.setAttribute("op-data-value",onOff);
+    }
+
+    /**
+     * Check if the player encountered an error after playing and attempt to reconnect.
+     * @param {CustomEvent} e  The state change event from the video player.
+     * @this {object} The video player instance (OvenPlayer).
+     */
+    handleStateChange(e)
+    {
+        if(e.prevstate === "playing" && e.newstate === "error")
+        {
+            console.error("Player encountered an error after playing.");
+            setTimeout(() => {
+                console.log("Reconnecting after connection lost interval:", connexionLostInterval);
+                
+                this.play();
+            }, connexionLostInterval);
+        }
+        
     }
 }

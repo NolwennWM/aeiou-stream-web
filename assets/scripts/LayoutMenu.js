@@ -4,6 +4,7 @@ export class LayoutMenu
 {
     layoutsList = ["layout-0-a", "layout-1-a", "layout-2-a", "layout-2-b", "layout-2-c", "layout-3-a", "layout-3-b", "layout-3-c", "layout-3-d", "layout-3-e", "layout-3-f"/* , "layout-3-g" */, "layout-4-a"];
     storageName = "layout-setting";
+    isFormatModeActive = false;
     /**
      * control the layout of the application
      */
@@ -252,5 +253,17 @@ export class LayoutMenu
     toggleOverlay(force)
     {
         this.overlay?.classList.toggle("hide", force);
+    }
+
+    handleFormatMode()
+    {
+        if(!this.isFormatModeActive)return;
+
+        const videos = document.querySelectorAll("video");
+        for (const video of videos) 
+        {
+            const videoStyle = getComputedStyle(video);
+            const videoInfo = {start: videoStyle.gridRowStart, end: videoStyle.gridRowEnd, ratio: video.videoWidth / video.videoHeight};
+        }
     }
 }

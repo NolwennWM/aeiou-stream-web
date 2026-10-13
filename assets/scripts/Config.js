@@ -1,6 +1,7 @@
 export const   
         path = "/v1/stats/current/vhosts/default/apps/app/streams/stream", 
         requestInterval = 60000,
+        connexionLostInterval = 3000,
         envProd = true,
         streamers = {
             /* "streamerName":{
